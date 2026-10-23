@@ -9,52 +9,53 @@
 - [x] Configure `.env` locally and verify `.env` is ignored by Git.
 - [x] Configure the local SQL database connection.
 - [x] Run migrations successfully against a clean development database.
-- [s] Run the default test suite and confirm the starting state is green.
-- [s] Add a short project description and setup instructions to `README.md`.
-- [s] Commit: `chore: initialize TaskFlow API`
+- [x] Run the default test suite and confirm the starting state is green.
+- [ ] Add a short project description and setup instructions to `README.md`.
+- [x] Commit: `chore: initialize TaskFlow API`
 
 ## Phase 1 — Requirements and API contract
 
 - [x] Define the Task fields:
-  - `id`
-  - `title` (required string, max 150 characters)
-  - `description` (optional text)
-  - `status` (`pending`, `in_progress`, `completed`)
-  - `priority` (`low`, `medium`, `high`)
-  - `due_date` (optional date)
-  - `created_at`
-  - `updated_at`
+  - [x] `id`
+  - [x] `title` (required string, max 150 characters)
+  - [x] `description` (optional text)
+  - [x] `status` (`pending`, `in_progress`, `completed`)
+  - [x] `priority` (`low`, `medium`, `high`)
+  - [x] `due_date` (optional date)
+  - [x] `created_at`
+  - [x] `updated_at`
 - [ ] Decide and document default values: `status = pending`, `priority = medium`.
 - [ ] Define behavior for missing or invalid IDs (HTTP 404).
 - [ ] Define JSON response conventions for success and validation errors.
 - [ ] Define the initial endpoint contract:
-  - `GET /api/tasks`
-  - `POST /api/tasks`
-  - `GET /api/tasks/{task}`
-  - `PUT/PATCH /api/tasks/{task}`
-  - `DELETE /api/tasks/{task}`
+  - [x] `GET /api/tasks` — implemented; manual verification pending.
+  - [x] `POST /api/tasks` — implemented and manually verified.
+  - [ ] `GET /api/tasks/{task}`
+  - [ ] `PUT/PATCH /api/tasks/{task}`
+  - [ ] `DELETE /api/tasks/{task}`
 - [ ] Document list query parameters: `status`, `priority`, `search`, `per_page`, and `page`.
-- [ ] Keep authentication explicitly out of scope for this first version.
+- [x] Keep authentication explicitly out of scope for this first version.
 - [ ] Commit: `docs: define TaskFlow API requirements`
 
 ## Phase 2 — Database and Eloquent model
 
-- [ ] Create the `tasks` migration.
-- [ ] Add the required columns and appropriate nullability/defaults.
+- [x] Create the `tasks` migration.
+- [x] Add the required columns and appropriate nullability/defaults.
 - [ ] Add indexes only where justified by expected filters or queries.
-- [ ] Create the `Task` Eloquent model.
-- [ ] Configure mass assignment safely (`$fillable` or an appropriate alternative).
+- [x] Create the `Task` Eloquent model.
+- [x] Configure mass assignment safely (`$fillable` or an appropriate alternative).
 - [ ] Add casts for `due_date` and any other fields that need casting.
 - [ ] Create a `TaskFactory`.
 - [ ] Create a `TaskSeeder` only if useful for local demonstration.
 - [ ] Rebuild the database from a clean state and verify migrations.
 - [ ] Add tests for model/database persistence where appropriate.
-- [ ] Commit: `feat: add Task model and database schema`
+- [x] Commit: `feat: add Task model and database schema`
 
 ## Phase 3 — Read endpoints
 
-- [ ] Create the API routes for listing and showing tasks.
-- [ ] Implement `GET /api/tasks`.
+- [x] Create the API route for listing tasks.
+- [x] Implement `GET /api/tasks`.
+- [ ] Create the API route for showing an individual task.
 - [ ] Implement `GET /api/tasks/{task}`.
 - [ ] Use route model binding for individual tasks.
 - [ ] Return a consistent JSON representation (use an API Resource if appropriate).
@@ -64,14 +65,14 @@
 
 ## Phase 4 — Create endpoint and validation
 
-- [ ] Create a `StoreTaskRequest` Form Request.
-- [ ] Validate `title`, `description`, `status`, `priority`, and `due_date`.
-- [ ] Ensure enum-like values accept only the documented options.
-- [ ] Implement `POST /api/tasks`.
-- [ ] Return HTTP 201 when a task is created successfully.
-- [ ] Return structured validation errors with HTTP 422 for invalid input.
+- [x] Create a `StoreTaskRequest` Form Request.
+- [x] Validate `title`, `description`, `status`, `priority`, and `due_date`.
+- [x] Ensure enum-like values accept only the documented options.
+- [x] Implement `POST /api/tasks`.
+- [x] Return HTTP 201 when a task is created successfully.
+- [ ] Verify structured validation errors with HTTP 422 for invalid input.
 - [ ] Write feature tests for valid creation, missing title, overlong title, invalid status/priority, and invalid date.
-- [ ] Commit: `feat: implement task creation and validation`
+- [x] Commit: `feat: add task creation endpoint`
 
 ## Phase 5 — Update and delete endpoints
 
