@@ -7,15 +7,15 @@
 - [x] Create a Laravel application in the repository (or document the chosen directory layout).
 - [x] Confirm the PHP, Composer, Laravel, and SQL database versions used.
 - [x] Configure `.env` locally and verify `.env` is ignored by Git.
-- [ ] Configure the local SQL database connection.
-- [ ] Run migrations successfully against a clean development database.
-- [ ] Run the default test suite and confirm the starting state is green.
-- [ ] Add a short project description and setup instructions to `README.md`.
-- [ ] Commit: `chore: initialize TaskFlow API`
+- [x] Configure the local SQL database connection.
+- [x] Run migrations successfully against a clean development database.
+- [s] Run the default test suite and confirm the starting state is green.
+- [s] Add a short project description and setup instructions to `README.md`.
+- [s] Commit: `chore: initialize TaskFlow API`
 
 ## Phase 1 — Requirements and API contract
 
-- [ ] Define the Task fields:
+- [x] Define the Task fields:
   - `id`
   - `title` (required string, max 150 characters)
   - `description` (optional text)
