@@ -31,4 +31,25 @@ class TaskController extends Controller
             'data' => $task,
         ], 201);
     }
+
+    public function show(int $task)
+    {
+
+
+        $thisTask = Task::find($task);
+
+        if (!$thisTask) {
+            return response()->json([
+                'success' => false,
+                'message' => "Task with ID {$task} not found",
+                'data' => []
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Task retrieved successfully',
+            'data' => $thisTask,
+        ], 200);
+    }
 }
