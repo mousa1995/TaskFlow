@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TaskCreationTest extends TestCase
@@ -35,5 +34,21 @@ class TaskCreationTest extends TestCase
             'status' => $payload['status'],
             'priority' => $payload['priority']
         ]);
+    }
+
+    public function test_title_is_required(): void
+    {
+        $payload = [
+            'description' => 'Practice validation',
+            'status' => 'pending',
+            'priority' => 'high',
+        ];
+
+        $response = $this->postJson('/api/tasks', $payload);
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['title']);
+
+        $this->assertDatabaseCount('tasks', 0);
     }
 }
