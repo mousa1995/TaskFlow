@@ -51,4 +51,20 @@ class TaskCreationTest extends TestCase
 
         $this->assertDatabaseCount('tasks', 0);
     }
+
+    public function test_invalid_status_is_rejected(): void
+    {
+        $payload = [
+            'title' => 'Laravel',
+            'status' => 'unknown',
+            'priority' => 'high',
+        ];
+
+        $response = $this->postJson('/api/tasks', $payload);
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['status']);
+
+        $this->assertDatabaseCount('tasks', 0);
+    }
 }
