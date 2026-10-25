@@ -23,8 +23,17 @@ class TaskShowTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('success', true)
-            ->assertJsonPath('data.id', $task->id)
-            ->assertJsonPath('data.title', 'Laravel')
-            ->assertJsonPath('data.description', 'practice task show');
+            ->assertJsonPath('data.id', $task['id'])
+            ->assertJsonPath('data.title', $task['title'])
+            ->assertJsonPath('data.description', $task['description']);
+    }
+
+    public function test_a_missing_task_returns_404(): void
+    {
+        $response = $this->getJson('/api/tasks/999999');
+
+        $response->assertNotFound()
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('message', 'Task with ID 999999 not found');
     }
 }
