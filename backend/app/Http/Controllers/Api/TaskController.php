@@ -23,6 +23,10 @@ class TaskController extends Controller
             $query->where('priority', $priority);
         });
 
+        $query->when($request->query('search'), function ($query, $searched) {
+            $query->where('title', 'like', '%' . $searched . '%');
+        });
+
         $tasks = $query->get();
 
         return response()->json([
