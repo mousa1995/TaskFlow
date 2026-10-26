@@ -19,6 +19,10 @@ class TaskController extends Controller
             $query->where('status', $status);
         });
 
+        $query->when($request->query('priority'), function ($query, $priority) {
+            $query->where('priority', $priority);
+        });
+
         $tasks = $query->get();
 
         return response()->json([
