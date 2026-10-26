@@ -28,4 +28,23 @@ class TaskFilteringTest extends TestCase
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.title', 'Pending task');
     }
+
+    public function test_a_task_can_be_filtered_by_priority(): void
+    {
+        Task::factory()->create([
+            'title' => 'High priority task',
+            'priority' => 'high',
+        ]);
+
+        Task::factory()->create([
+            'title' => 'Low priority task',
+            'priority' => 'low',
+        ]);
+
+        $response = $this->getJson("/api/tasks?priority=high");
+
+        $response->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.title', 'High priority task');
+    }
 }
