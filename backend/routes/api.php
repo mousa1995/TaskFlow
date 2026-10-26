@@ -10,4 +10,4 @@ Route::post('/tasks', [TaskController::class, 'store']);
 
 Route::get('/tasks/{task}', [TaskController::class, 'show'])->whereNumber('task');
 
-Route::put('/tasks/{task}', [TaskController::class, 'update'])->whereNumber('task');
+Route::match(['put', 'patch'], '/tasks/{task}', [TaskController::class, 'update'])->whereNumber('task');
