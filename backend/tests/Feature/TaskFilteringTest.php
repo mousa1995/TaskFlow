@@ -74,4 +74,30 @@ class TaskFilteringTest extends TestCase
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.title', 'Low completed task');
     }
+
+    public function test_tasks_can_be_searched_by_title(): void
+    {
+        Task::factory()->create([
+            'title' => 'Learn Laravel API',
+        ]);
+
+        Task::factory()->create([
+            'title' => 'Build React interfaces',
+        ]);
+
+        Task::factory()->create([
+            'title' => 'Laravel testing basics',
+        ]);
+
+        $response = $this->getJson("/api/tasks?search=Laravel");
+
+        $response->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonFragment([
+                'title' => 'Learn Laravel API',
+            ])
+            ->assertJsonFragment([
+                'title' => 'Laravel testing basics',
+            ]);
+    }
 }
