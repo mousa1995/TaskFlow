@@ -6,12 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Http\Request;
+
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::query()->get();
+        $query = Task::query();
+
+        $query->when($request->query('status'), function ($query, $status) {
+            $query->where('status', $status);
+        });
+
+        $tasks = $query->get();
 
         return response()->json([
             'success' => true,
