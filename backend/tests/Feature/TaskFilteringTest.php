@@ -100,4 +100,17 @@ class TaskFilteringTest extends TestCase
                 'title' => 'Laravel testing basics',
             ]);
     }
+
+    public function test_search_returns_empty_results_when_no_task_matches(): void
+    {
+        Task::factory()->create([
+            'title' => 'Learn Laravel',
+        ]);
+
+        $response = $this->getJson('/api/tasks?search=Nonexistent');
+
+        $response->assertOk()
+            ->assertJsonCount(0, 'data')
+            ->assertJsonPath('success', true);
+    }
 }

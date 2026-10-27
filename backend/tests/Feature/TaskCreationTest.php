@@ -81,4 +81,49 @@ class TaskCreationTest extends TestCase
 
         $this->assertDatabaseCount('tasks', 0);
     }
+
+
+    public function test_title_cannot_exceed_150_characters(): void
+    {
+        $payload = [
+            'title' => str_repeat('a', 151),
+        ];
+
+        $response = $this->postJson('/api/tasks', $payload);
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['title']);
+
+        $this->assertDatabaseCount('tasks', 0);
+    }
+
+    public function test_invalid_priority_is_rejected(): void
+    {
+        $payload = [
+            'title' => 'Laravel',
+            'priority' => 'urgent',
+        ];
+
+        $response = $this->postJson('/api/tasks', $payload);
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['priority']);
+
+        $this->assertDatabaseCount('tasks', 0);
+    }
+
+    public function test_invalid_due_date_is_rejected(): void
+    {
+        $payload = [
+            'title' => 'Laravel',
+            'due_date' => 'not-a-date',
+        ];
+
+        $response = $this->postJson('/api/tasks', $payload);
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['due_date']);
+
+        $this->assertDatabaseCount('tasks', 0);
+    }
 }
