@@ -23,11 +23,26 @@ class TaskShowTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('success', true)
+            ->assertJsonPath('message', 'Task retrieved successfully')
             ->assertJsonPath('data.id', $task['id'])
             ->assertJsonPath('data.title', $task['title'])
             ->assertJsonPath('data.description', $task['description'])
             ->assertJsonPath('data.status', $task['status'])
-            ->assertJsonPath('data.priority', $task['priority']);
+            ->assertJsonPath('data.priority', $task['priority'])
+            ->assertJsonStructure([
+                'success',
+                'message',
+                'data' => [
+                    'id',
+                    'title',
+                    'description',
+                    'status',
+                    'priority',
+                    'due_date',
+                    'created_at',
+                    'updated_at',
+                ],
+            ]);
     }
 
     public function test_a_missing_task_returns_404(): void

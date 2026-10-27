@@ -26,7 +26,21 @@ class TaskCreationTest extends TestCase
             ->assertJsonPath('data.title', $payload['title'])
             ->assertJsonPath('data.description', $payload['description'])
             ->assertJsonPath('data.status', $payload['status'])
-            ->assertJsonPath('data.priority', $payload['priority']);
+            ->assertJsonPath('data.priority', $payload['priority'])->assertJsonPath('message', 'Task created successfully')
+            ->assertJsonStructure([
+                'success',
+                'message',
+                'data' => [
+                    'id',
+                    'title',
+                    'description',
+                    'status',
+                    'priority',
+                    'due_date',
+                    'created_at',
+                    'updated_at',
+                ],
+            ]);
 
         $this->assertDatabaseHas('tasks', [
             'title' => $payload['title'],

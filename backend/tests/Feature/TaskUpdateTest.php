@@ -104,7 +104,21 @@ class TaskUpdateTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('data.status', $payload['status'])
-            ->assertJsonPath('data.id', $task->id);
+            ->assertJsonPath('data.id', $task->id)
+            ->assertJsonStructure([
+                'success',
+                'message',
+                'data' => [
+                    'id',
+                    'title',
+                    'description',
+                    'status',
+                    'priority',
+                    'due_date',
+                    'created_at',
+                    'updated_at',
+                ],
+            ]);
 
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,

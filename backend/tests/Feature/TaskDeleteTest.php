@@ -23,7 +23,8 @@ class TaskDeleteTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('success', true)
-            ->assertJsonPath('message', 'Task deleted successfully');
+            ->assertJsonPath('message', 'Task deleted successfully')
+            ->assertJsonPath('data', []);
 
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
