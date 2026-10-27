@@ -130,7 +130,7 @@
 - [x] Test partial updates.
 - [x] Test filtering and search.
 - [x] Test pagination.
-- [x] Last reported test run: 20 tests passed, 116 assertions.
+- [x] Run the test suite: 20 tests passed, 116 assertions.
 - [ ] Add remaining validation edge-case tests.
 - [ ] Add tests for empty results and invalid query parameters.
 - [ ] Verify test independence.
@@ -146,10 +146,10 @@
 - [x] Draft Task field and query parameter documentation.
 - [x] Draft a task creation request example.
 - [x] Draft scope and limitations.
-- [ ] Verify prerequisites against `backend/composer.json`.
-- [ ] Verify database setup against `backend/.env.example`.
+- [x] Review PHP and Laravel requirements against `backend/composer.json`.
+- [x] Review SQLite configuration against `backend/.env.example`.
 - [ ] Verify installation commands on a clean environment.
-- [ ] Verify test instructions.
+- [ ] Verify test instructions after final changes.
 - [ ] Ensure a new developer can follow the README successfully.
 - [ ] Review Git history.
 - [ ] Tag a stable release when ready.

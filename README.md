@@ -1,169 +1,139 @@
-# TaskFlow API
+# TaskFlow
 
-TaskFlow is a task management REST API built with Laravel. This project focuses on backend development, database operations, request validation, API design, and automated testing.
+TaskFlow is a learning project focused on building a RESTful API with Laravel. It provides task management features and serves as a backend foundation for a future frontend application.
 
 ## Features
 
-- Create, retrieve, update, and delete tasks (CRUD).
-- Validate incoming requests using Laravel Form Requests.
-- Filter tasks by status and priority.
-- Search tasks by title.
-- Paginate task lists.
-- Return task data using Laravel API Resources.
-- Handle missing tasks with HTTP 404 responses.
-- Test API endpoints using automated feature tests.
+- Create, retrieve, update, and delete tasks
+- Validate incoming requests
+- Filter tasks by status and priority
+- Search tasks by title
+- Paginate task lists
+- Return consistent JSON responses using Laravel API Resources
+- Automated feature tests
 
 ## Tech Stack
 
-- **Backend:** PHP, Laravel
-- **Database:** SQLite
-- **Testing:** Laravel testing tools / PHPUnit
-- **Version control:** Git and GitHub
+- PHP 8.3+
+- Laravel 13
+- SQLite
+- PHPUnit
 
 ## Project Structure
 
 ```text
 TaskFlow/
-├── backend/    # Laravel API application
-├── README.md   # Project documentation
-└── TODO.md     # Backend roadmap and progress
+├── backend/
+│   ├── app/
+│   ├── database/
+│   ├── routes/
+│   └── tests/
+├── README.md
+└── TODO.md
 ```
 
 ## Requirements
 
-Before running the project, make sure you have:
+- PHP 8.3 or newer
+- Composer
+- SQLite support and the PHP extensions required by Laravel
 
-- PHP and the extensions required by your Laravel application.
-- Composer.
-- SQLite support enabled for PHP.
+## Installation
 
-## Installation and Setup
-
-Clone the repository and enter the backend directory:
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/mousa1995/TaskFlow.git
 cd TaskFlow/backend
 ```
 
-Install PHP dependencies:
+### 2. Install dependencies
 
 ```bash
 composer install
 ```
 
-Create your local environment file:
+### 3. Configure the environment
 
 ```bash
 cp .env.example .env
-```
-
-Generate the application key:
-
-```bash
 php artisan key:generate
 ```
 
-### Database setup
-
-Configure your local environment to use SQLite. Make sure the database path in `.env` points to a valid SQLite database file.
-
-If the configured database file does not exist and your project uses `database/database.sqlite`, create it:
+### 4. Prepare the SQLite database
 
 ```bash
 touch database/database.sqlite
 ```
 
-Run the migrations:
+Make sure `.env` contains:
+
+```env
+DB_CONNECTION=sqlite
+SESSION_DRIVER=file
+```
+
+### 5. Run migrations
 
 ```bash
 php artisan migrate
 ```
 
-### Run the API
-
-Start the local development server:
+### 6. Start the development server
 
 ```bash
 php artisan serve
 ```
 
-By default, the application is available at:
+The API will be available at:
 
-```text
-http://127.0.0.1:8000
-```
+`http://127.0.0.1:8000`
 
-The API endpoints use the `/api` prefix.
-
-### Run the tests
-
-From the `backend` directory, run:
-
-```bash
-php artisan test
-```
+API routes use the `/api` prefix.
 
 ## API Endpoints
 
-| Method | Endpoint            | Description                        |
-| ------ | ------------------- | ---------------------------------- |
-| GET    | `/api/tasks`        | Retrieve a paginated list of tasks |
-| POST   | `/api/tasks`        | Create a task                      |
-| GET    | `/api/tasks/{task}` | Retrieve a single task             |
-| PUT    | `/api/tasks/{task}` | Update a task                      |
-| PATCH  | `/api/tasks/{task}` | Partially update a task            |
-| DELETE | `/api/tasks/{task}` | Delete a task                      |
+| Method | Endpoint            | Description             |
+| ------ | ------------------- | ----------------------- |
+| GET    | `/api/tasks`        | List tasks              |
+| POST   | `/api/tasks`        | Create a task           |
+| GET    | `/api/tasks/{task}` | Retrieve a task         |
+| PUT    | `/api/tasks/{task}` | Replace/update a task   |
+| PATCH  | `/api/tasks/{task}` | Partially update a task |
+| DELETE | `/api/tasks/{task}` | Delete a task           |
 
-### Task fields
+## Task Fields
 
-| Field         | Description                                 |
-| ------------- | ------------------------------------------- |
-| `id`          | Task identifier                             |
-| `title`       | Required task title, maximum 150 characters |
-| `description` | Optional task description                   |
-| `status`      | `pending`, `in_progress`, or `completed`    |
-| `priority`    | `low`, `medium`, or `high`                  |
-| `due_date`    | Optional due date                           |
-| `created_at`  | Creation timestamp                          |
-| `updated_at`  | Last update timestamp                       |
+| Field         | Description                              |
+| ------------- | ---------------------------------------- |
+| `id`          | Unique task identifier                   |
+| `title`       | Required string, maximum 150 characters  |
+| `description` | Optional description                     |
+| `status`      | `pending`, `in_progress`, or `completed` |
+| `priority`    | `low`, `medium`, or `high`               |
+| `due_date`    | Optional date                            |
+| `created_at`  | Creation timestamp                       |
+| `updated_at`  | Last update timestamp                    |
 
-Default values:
+## Filtering, Search, and Pagination
 
-- `status`: `pending`
-- `priority`: `medium`
+The task listing endpoint supports:
 
-### List filters and pagination
-
-The `GET /api/tasks` endpoint supports these query parameters:
-
-| Parameter  | Description                         |
-| ---------- | ----------------------------------- |
-| `status`   | Filter tasks by status              |
-| `priority` | Filter tasks by priority            |
-| `search`   | Search task titles                  |
-| `per_page` | Choose the number of tasks per page |
-| `page`     | Select a page                       |
+- `status` — filter by task status
+- `priority` — filter by priority
+- `search` — search task titles
+- `per_page` — number of tasks per page
+- `page` — page number
 
 Example:
 
 ```text
-GET /api/tasks?status=pending&priority=high&search=report&per_page=10&page=1
+GET /api/tasks?status=pending&priority=high&search=Laravel&per_page=5&page=1
 ```
 
-Pagination responses include task data and pagination metadata and links.
+## Example: Create a Task
 
-### Example: Create a task
-
-Request:
-
-```http
-POST /api/tasks
-Content-Type: application/json
-Accept: application/json
-```
-
-Body:
+Send a `POST` request to `/api/tasks` with the `Accept: application/json` header and a JSON body:
 
 ```json
 {
@@ -175,40 +145,36 @@ Body:
 }
 ```
 
-A successful creation returns HTTP `201 Created`.
+## Validation and Error Handling
 
-## Response and Error Handling
-
-Successful responses include a success indicator, a message, and the relevant data where applicable.
+The API validates incoming task data and returns JSON responses.
 
 Common HTTP status codes:
 
-- `200 OK` — successful retrieval, update, or deletion.
-- `201 Created` — successful task creation.
-- `404 Not Found` — the requested task does not exist.
-- `422 Unprocessable Content` — request validation failed.
+- `200 OK` — successful retrieval or update
+- `201 Created` — task created
+- `404 Not Found` — task does not exist
+- `422 Unprocessable Content` — validation failed
 
-Validation errors are handled by Laravel's request validation mechanism.
+## Running Tests
 
-## Testing
-
-Automated feature tests cover task creation, retrieval, updates, deletion, validation, filtering, search, and pagination.
-
-Run the complete test suite with:
+From the `backend/` directory:
 
 ```bash
 php artisan test
 ```
 
-## Scope and Limitations
+## Project Scope
 
-This version focuses on the backend API.
+This project currently focuses on backend API development. Authentication, user ownership, teams, notifications, file uploads, and frontend integration are outside the initial scope.
 
-- Authentication is not included.
-- User ownership, teams, roles, and permissions are not included.
-- File attachments and notifications are not included.
-- A frontend application has not yet been included in this version.
+## Roadmap
 
-## Development Roadmap
-
-See [TODO.md](TODO.md) for implementation progress and planned work.
+- [x] Core task CRUD
+- [x] Request validation
+- [x] Filtering and search
+- [x] Pagination
+- [x] API Resources
+- [x] Feature tests
+- [ ] Review edge cases and validation coverage
+- [ ] Build a frontend application
