@@ -27,7 +27,7 @@ class TaskController extends Controller
             $query->where('title', 'like', '%' . $searched . '%');
         });
 
-        $tasks = $query->get();
+        $tasks = $query->paginate(10);
 
         return response()->json([
             'success' => true,

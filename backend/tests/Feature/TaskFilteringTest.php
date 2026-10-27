@@ -25,8 +25,8 @@ class TaskFilteringTest extends TestCase
         $response = $this->getJson("/api/tasks?status=pending");
 
         $response->assertOk()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.title', 'Pending task');
+            ->assertJsonCount(1, 'data.data')
+            ->assertJsonPath('data.data.0.title', 'Pending task');
     }
 
     public function test_a_task_can_be_filtered_by_priority(): void
@@ -44,8 +44,8 @@ class TaskFilteringTest extends TestCase
         $response = $this->getJson("/api/tasks?priority=high");
 
         $response->assertOk()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.title', 'High priority task');
+            ->assertJsonCount(1, 'data.data')
+            ->assertJsonPath('data.data.0.title', 'High priority task');
     }
 
     public function test_tasks_can_be_filtered_with_priority_and_status(): void
@@ -71,8 +71,8 @@ class TaskFilteringTest extends TestCase
         $response = $this->getJson('/api/tasks?priority=low&status=completed');
 
         $response->assertOk()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.title', 'Low completed task');
+            ->assertJsonCount(1, 'data.data')
+            ->assertJsonPath('data.data.0.title', 'Low completed task');
     }
 
     public function test_tasks_can_be_searched_by_title(): void
@@ -92,7 +92,7 @@ class TaskFilteringTest extends TestCase
         $response = $this->getJson("/api/tasks?search=Laravel");
 
         $response->assertOk()
-            ->assertJsonCount(2, 'data')
+            ->assertJsonCount(2, 'data.data')
             ->assertJsonFragment([
                 'title' => 'Learn Laravel API',
             ])
