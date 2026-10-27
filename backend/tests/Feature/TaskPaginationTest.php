@@ -17,10 +17,10 @@ class TaskPaginationTest extends TestCase
         $response = $this->getJson("/api/tasks");
 
         $response->assertOk()
-            ->assertJsonCount(10, 'data.data')
-            ->assertJsonPath('data.total', 15)
-            ->assertJsonPath('data.per_page', 10)
-            ->assertJsonPath('data.last_page', 2);
+            ->assertJsonCount(10, 'data')
+            ->assertJsonPath('meta.total', 15)
+            ->assertJsonPath('meta.per_page', 10)
+            ->assertJsonPath('meta.last_page', 2);
     }
 
     public function test_second_page_returns_remaining_tasks(): void
@@ -30,9 +30,9 @@ class TaskPaginationTest extends TestCase
         $response = $this->getJson("/api/tasks?page=2");
 
         $response->assertOk()
-            ->assertJsonCount(5, 'data.data')
-            ->assertJsonPath('data.total', 15)
-            ->assertJsonPath('data.current_page', 2);
+            ->assertJsonCount(5, 'data')
+            ->assertJsonPath('meta.total', 15)
+            ->assertJsonPath('meta.current_page', 2);
     }
 
     public function test_pagination_works_with_filters(): void
@@ -43,7 +43,7 @@ class TaskPaginationTest extends TestCase
         $response = $this->getJson('/api/tasks?status=pending');
 
         $response->assertOk()
-            ->assertJsonCount(10, 'data.data')
-            ->assertJsonPath('data.total', 12);
+            ->assertJsonCount(10, 'data')
+            ->assertJsonPath('meta.total', 12);
     }
 }

@@ -25,7 +25,9 @@ class TaskShowTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.id', $task['id'])
             ->assertJsonPath('data.title', $task['title'])
-            ->assertJsonPath('data.description', $task['description']);
+            ->assertJsonPath('data.description', $task['description'])
+            ->assertJsonPath('data.status', $task['status'])
+            ->assertJsonPath('data.priority', $task['priority']);
     }
 
     public function test_a_missing_task_returns_404(): void

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
 
 
@@ -29,11 +30,10 @@ class TaskController extends Controller
 
         $tasks = $query->paginate(10);
 
-        return response()->json([
+        return TaskResource::collection($tasks)->additional([
             'success' => true,
             'message' => 'Tasks retrieved successfully',
-            'data' => $tasks,
-        ], 200);
+        ]);
     }
 
     public function store(StoreTaskRequest $request)
@@ -66,7 +66,7 @@ class TaskController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Task retrieved successfully',
-            'data' => $thisTask,
+            'data' => new TaskResource($thisTask),
         ], 200);
     }
 
