@@ -2,150 +2,173 @@
 
 ## Phase 0 — Repository and project setup
 
-- [x] Create a GitHub repository named `Taskflow`.
-- [x] Initialize the repository with a `README.md` and this `TODO.md`.
-- [x] Create a Laravel application in the repository (or document the chosen directory layout).
-- [x] Confirm the PHP, Composer, Laravel, and SQL database versions used.
-- [x] Configure `.env` locally and verify `.env` is ignored by Git.
-- [x] Configure the local SQL database connection.
-- [x] Run migrations successfully against a clean development database.
-- [x] Run the default test suite and confirm the starting state is green.
-- [ ] Add a short project description and setup instructions to `README.md`.
-- [x] Commit: `chore: initialize TaskFlow API`
+- [x] Create the GitHub repository.
+- [x] Initialize the repository with `README.md` and `TODO.md`.
+- [x] Create the Laravel application in `backend/`.
+- [x] Confirm PHP, Composer, Laravel, and database versions.
+- [x] Configure local `.env` and Git ignore rules.
+- [x] Configure SQLite.
+- [x] Run migrations successfully.
+- [x] Run the initial test suite.
+- [ ] Finalize README setup instructions and verify them on a clean environment.
+- [x] Commit initial backend setup.
 
 ## Phase 1 — Requirements and API contract
 
-- [x] Define the Task fields:
-  - [x] `id`
-  - [x] `title` (required string, max 150 characters)
-  - [x] `description` (optional text)
-  - [x] `status` (`pending`, `in_progress`, `completed`)
-  - [x] `priority` (`low`, `medium`, `high`)
-  - [x] `due_date` (optional date)
-  - [x] `created_at`
-  - [x] `updated_at`
-- [ ] Decide and document default values: `status = pending`, `priority = medium`.
-- [ ] Define behavior for missing or invalid IDs (HTTP 404).
-- [ ] Define JSON response conventions for success and validation errors.
-- [ ] Define the initial endpoint contract:
-  - [x] `GET /api/tasks` — implemented; manual verification pending.
-  - [x] `POST /api/tasks` — implemented and manually verified.
-  - [ ] `GET /api/tasks/{task}`
-  - [ ] `PUT/PATCH /api/tasks/{task}`
-  - [ ] `DELETE /api/tasks/{task}`
-- [ ] Document list query parameters: `status`, `priority`, `search`, `per_page`, and `page`.
-- [x] Keep authentication explicitly out of scope for this first version.
-- [ ] Commit: `docs: define TaskFlow API requirements`
+- [x] Define all Task fields.
+- [x] Define title validation and maximum length.
+- [x] Define allowed status values.
+- [x] Define allowed priority values.
+- [x] Configure default status as `pending`.
+- [x] Configure default priority as `medium`.
+- [x] Implement missing-task 404 responses.
+- [x] Establish JSON response conventions.
+- [x] Implement `GET /api/tasks`.
+- [x] Implement `POST /api/tasks`.
+- [x] Implement `GET /api/tasks/{task}`.
+- [x] Implement `PUT /api/tasks/{task}`.
+- [x] Implement `PATCH /api/tasks/{task}`.
+- [x] Implement `DELETE /api/tasks/{task}`.
+- [x] Implement status and priority filters.
+- [x] Implement title search.
+- [x] Implement pagination.
+- [x] Keep authentication out of scope for v1.
+- [ ] Review and finalize API contract documentation.
 
 ## Phase 2 — Database and Eloquent model
 
 - [x] Create the `tasks` migration.
-- [x] Add the required columns and appropriate nullability/defaults.
-- [ ] Add indexes only where justified by expected filters or queries.
-- [x] Create the `Task` Eloquent model.
-- [x] Configure mass assignment safely (`$fillable` or an appropriate alternative).
-- [ ] Add casts for `due_date` and any other fields that need casting.
-- [ ] Create a `TaskFactory`.
-- [ ] Create a `TaskSeeder` only if useful for local demonstration.
-- [ ] Rebuild the database from a clean state and verify migrations.
-- [ ] Add tests for model/database persistence where appropriate.
-- [x] Commit: `feat: add Task model and database schema`
+- [x] Define columns, nullability, and defaults.
+- [x] Create the `Task` model.
+- [x] Configure `$fillable`.
+- [x] Verify database persistence through feature tests.
+- [ ] Review date casting.
+- [ ] Add a `TaskFactory` if useful for test data.
+- [ ] Add a `TaskSeeder` if useful for demonstration.
+- [ ] Review database indexes based on actual query patterns.
+- [ ] Verify migrations from a clean database.
 
 ## Phase 3 — Read endpoints
 
-- [x] Create the API route for listing tasks.
-- [x] Implement `GET /api/tasks`.
-- [ ] Create the API route for showing an individual task.
-- [ ] Implement `GET /api/tasks/{task}`.
-- [ ] Use route model binding for individual tasks.
-- [ ] Return a consistent JSON representation (use an API Resource if appropriate).
-- [ ] Verify an unknown task ID returns 404.
-- [ ] Write feature tests for list and detail endpoints.
-- [ ] Commit: `feat: implement task read endpoints`
+- [x] Implement the task list endpoint.
+- [x] Implement the individual task endpoint.
+- [x] Use `TaskResource` for task output.
+- [x] Implement missing-task 404 behavior.
+- [x] Add feature tests for list and detail endpoints.
+- [ ] Consider route model binding.
+- [ ] Review response consistency between endpoints.
 
 ## Phase 4 — Create endpoint and validation
 
-- [x] Create a `StoreTaskRequest` Form Request.
-- [x] Validate `title`, `description`, `status`, `priority`, and `due_date`.
-- [x] Ensure enum-like values accept only the documented options.
-- [x] Implement `POST /api/tasks`.
-- [x] Return HTTP 201 when a task is created successfully.
-- [ ] Verify structured validation errors with HTTP 422 for invalid input.
-- [ ] Write feature tests for valid creation, missing title, overlong title, invalid status/priority, and invalid date.
-- [x] Commit: `feat: add task creation endpoint`
+- [x] Create `StoreTaskRequest`.
+- [x] Validate title, description, status, priority, and due date.
+- [x] Restrict status and priority to allowed values.
+- [x] Implement task creation.
+- [x] Return HTTP 201 for successful creation.
+- [x] Test successful creation.
+- [x] Test missing title.
+- [x] Test invalid status.
+- [x] Test HTTP 422 validation behavior.
+- [ ] Test overlong title, invalid priority, and invalid date.
 
 ## Phase 5 — Update and delete endpoints
 
-- [ ] Create an `UpdateTaskRequest` Form Request.
-- [ ] Decide and test the intended semantics for `PUT` versus `PATCH`.
-- [ ] Implement `PUT/PATCH /api/tasks/{task}`.
-- [ ] Ensure omitted optional fields behave according to the documented update contract.
-- [ ] Implement `DELETE /api/tasks/{task}`.
-- [ ] Choose and document the delete response (commonly HTTP 204 No Content).
-- [ ] Test successful updates, validation failures, deletion, and requests for missing tasks.
-- [ ] Commit: `feat: implement task update and delete endpoints`
+- [x] Create `UpdateTaskRequest`.
+- [x] Implement PUT and PATCH updates.
+- [x] Test successful updates.
+- [x] Test partial updates.
+- [x] Test invalid updates.
+- [x] Implement task deletion.
+- [x] Test successful deletion.
+- [x] Test missing-task update and deletion.
+- [x] Return HTTP 200 with JSON after deletion.
+- [ ] Document PUT versus PATCH behavior.
+- [ ] Decide whether to retain HTTP 200 or use HTTP 204 for deletion.
+- [ ] Review duplicated missing-task handling.
 
-## Phase 6 — Filtering, search, sorting, and pagination
+## Phase 6 — Filtering, search, and pagination
 
-- [ ] Add filtering by `status`.
-- [ ] Add filtering by `priority`.
-- [ ] Add search by task title (define whether matching is partial and case-insensitive for the selected database).
-- [ ] Add pagination with a safe default and a maximum `per_page` value.
-- [ ] Validate query parameter values and reject or safely handle invalid values.
-- [ ] Use Eloquent query scopes only where they make the query clearer and reusable.
-- [ ] Add feature tests for combined filters, empty results, search, and pagination metadata.
-- [ ] Verify the API does not load the entire task table by default.
-- [ ] Commit: `feat: add task filtering and pagination`
+- [x] Filter by status.
+- [x] Filter by priority.
+- [x] Combine status and priority filters.
+- [x] Search task titles.
+- [x] Paginate task results.
+- [x] Return pagination metadata and links.
+- [x] Test status filtering.
+- [x] Test priority filtering.
+- [x] Test combined filters.
+- [x] Test title search.
+- [x] Test pagination.
+- [x] Test pagination with filters.
+- [ ] Test empty search results and invalid filters.
+- [ ] Define and test search case sensitivity.
+- [ ] Enforce a maximum `per_page` value.
+- [ ] Validate or safely handle invalid query parameters.
 
 ## Phase 7 — API consistency and maintainability
 
-- [ ] Review controller responsibilities and keep controllers readable.
-- [ ] Use API Resources for consistent task output where beneficial.
-- [ ] Ensure timestamps and dates have a predictable JSON format.
-- [ ] Review status codes: 200, 201, 204, 404, and 422 where appropriate.
-- [ ] Ensure unexpected exceptions are not exposed as stack traces in production.
-- [ ] Add or update API documentation (README endpoint examples or an OpenAPI document).
-- [ ] Remove unused code and duplicated validation/business rules.
-- [ ] Commit: `refactor: standardize API responses and documentation`
+- [x] Create and use `TaskResource`.
+- [x] Return structured JSON from the implemented endpoints.
+- [x] Include task fields in responses.
+- [x] Include pagination metadata in list responses.
+- [x] Test important response fields.
+- [ ] Review response consistency across all endpoints.
+- [ ] Review date and timestamp formats.
+- [ ] Document final HTTP status code choices.
+- [ ] Review production exception handling.
+- [ ] Review controllers for duplicated logic and unnecessary complexity.
+- [ ] Finalize API documentation in README.
 
 ## Phase 8 — Test coverage and quality checks
 
-- [ ] Run the full test suite from a clean database.
-- [ ] Cover the happy path for every endpoint.
-- [ ] Cover invalid payloads and missing records.
-- [ ] Cover filtering, search, and pagination.
-- [ ] Verify tests are isolated and do not depend on execution order.
-- [ ] Check for N+1 queries or unnecessary database queries where relevant.
-- [ ] Run the project's formatter/linter if configured.
-- [ ] Fix all failing tests and document any remaining known limitations.
-- [ ] Commit: `test: complete TaskFlow API feature coverage`
+- [x] Test successful task creation.
+- [x] Test task retrieval.
+- [x] Test task updates.
+- [x] Test task deletion.
+- [x] Test missing task records.
+- [x] Test key validation failures.
+- [x] Test partial updates.
+- [x] Test filtering and search.
+- [x] Test pagination.
+- [x] Last reported test run: 20 tests passed, 116 assertions.
+- [ ] Add remaining validation edge-case tests.
+- [ ] Add tests for empty results and invalid query parameters.
+- [ ] Verify test independence.
+- [ ] Run tests again after final changes.
+- [ ] Run a formatter or linter if configured.
+- [ ] Review unnecessary database queries.
 
 ## Phase 9 — Final README and handoff
 
-- [ ] Write the project purpose and feature list.
-- [ ] Document prerequisites and exact local setup steps.
-- [ ] Document environment/database setup without including secrets.
-- [ ] Document how to run migrations, seed demo data, and run tests.
-- [ ] Document all endpoints, request examples, response examples, and status codes.
-- [ ] Document available filters and pagination parameters.
-- [ ] Add a clear scope/limitations section (including that authentication is not included yet).
-- [ ] Verify a new developer can run the API by following the README.
-- [ ] Review Git history and ensure commits are understandable.
-- [ ] Tag a first stable release, e.g. `v1.0.0`, if the repository is ready.
-- [ ] Commit: `docs: finalize TaskFlow API README`
+- [x] Draft the project purpose and feature list.
+- [x] Draft the project structure.
+- [x] Draft endpoint documentation.
+- [x] Draft Task field and query parameter documentation.
+- [x] Draft a task creation request example.
+- [x] Draft scope and limitations.
+- [ ] Verify prerequisites against `backend/composer.json`.
+- [ ] Verify database setup against `backend/.env.example`.
+- [ ] Verify installation commands on a clean environment.
+- [ ] Verify test instructions.
+- [ ] Ensure a new developer can follow the README successfully.
+- [ ] Review Git history.
+- [ ] Tag a stable release when ready.
+- [ ] Commit final README documentation.
 
-## Definition of done
+## Definition of Done
 
-- [ ] A developer can set up the project from the README.
-- [ ] Database migrations work from a clean database.
-- [ ] All documented endpoints behave as specified.
-- [ ] Validation and error responses are predictable.
-- [ ] Filtering, search, and pagination work and are tested.
-- [ ] The full test suite passes.
-- [ ] No secrets or local environment files are committed.
-- [ ] The repository contains no frontend code in this version.
+- [ ] A developer can set up the project using README.
+- [ ] Migrations work from a clean database.
+- [x] All core CRUD endpoints are implemented.
+- [ ] All documented behaviors have sufficient tests.
+- [ ] Validation and error responses are documented and predictable.
+- [x] Filtering, search, and pagination are implemented and tested.
+- [x] The last reported test suite passed.
+- [ ] Remaining validation and query parameter edge cases are covered.
+- [x] `.env` is configured to be ignored by Git.
+- [x] The current version contains no frontend application.
 
-## Out of scope for v1
+## Out of Scope for v1
 
 - Authentication and user ownership
 - Teams, roles, and permissions
