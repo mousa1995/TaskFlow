@@ -45,7 +45,7 @@ class TaskController extends Controller
         return response()->json([
             'success' => true,
             'message' => "Task created successfully",
-            'data' => $task,
+            'data' => new TaskResource($task->fresh()),
         ], 201);
     }
 
@@ -66,7 +66,7 @@ class TaskController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Task retrieved successfully',
-            'data' => new TaskResource($thisTask),
+            'data' => new TaskResource($thisTask->fresh()),
         ], 200);
     }
 
@@ -89,7 +89,7 @@ class TaskController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Task updated successfully',
-            'data' => $thisTask->fresh(),
+            'data' => new TaskResource($thisTask->fresh()),
         ], 200);
     }
 
